@@ -1,0 +1,62 @@
+/* Styles for scrollbar in dark-themed websites */
+
+/* Scrollbar track */
+::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background-color: #666; /* Color of the scrollbar handle */
+    border-radius: 5px; /* Rounded corners for the handle */
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #333; /* Color of the scrollbar track */
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Color of the handle when hovered */
+  }
+  
+/* Styles for range input (slider) */
+
+/* Styles for range input (slider) */
+
+/* Track */
+input[type=range] {
+  appearance: none; /* Remove default styling */
+  width: 100%; 
+  height: 5px; /* Height of the track */
+  background-color: #404040; 
+  border-radius: 5px;
+}
+
+/* Thumb (handle) */
+input[type=range]::-webkit-slider-thumb {
+  appearance: none; /* Remove default styling */
+  width: 8px; /* Width of the thumb */
+  height: 8px; /* Height of the thumb */
+  background-color: #ffffff; /* Color of the thumb */
+  border-radius: 100%; /* Rounded shape */
+  cursor: pointer; /* Show pointer cursor */
+  border: 2px solid #ffffff; /* Border around the thumb */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+/* Thumb hover effect */
+input[type=range]::-webkit-slider-thumb:hover {
+  background-color: #ffffff; /* Color of the thumb on hover */
+}
+
+/* Track (filled portion) */
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%; 
+  height: 5px; /* Height of the filled portion */
+  background-color: #404040; 
+  border-radius: 5px;
+
+
+}
