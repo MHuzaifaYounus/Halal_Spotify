@@ -124,43 +124,64 @@ async function main() {
     })
     // updating song duration 
     currentsong.addEventListener("timeupdate", () => {
-
+        let index = songs.indexOf(currentsong.src.split("/songs/")[1])
         document.querySelector(".seekbar-box").children[0].innerHTML = formatTime(currentsong.currentTime)
         document.querySelector(".seekbar-box").children[2].innerHTML = formatTime(currentsong.duration)
         document.querySelector(".circle").style.left = (currentsong.currentTime / currentsong.duration) * 100 + "%"
         document.querySelector(".seekbar_overlay").style.width = (currentsong.currentTime / currentsong.duration) * 100 + "%"
+        // AUTOPLAY SONGS WHEN CURRENT SONG IS END 
+        if (currentsong.currentTime == currentsong.duration) {
+            // IF THE CURRENT SONG IS LAST SONG THEN AGAIN PLAY FIRST SONG 
+            if(index == (songs.length - 1)){
+                playMusic(songs[0])
+                document.querySelector(".songatplaybar").firstElementChild.setAttribute("src", song_images[0])
+                document.querySelector(".songatplaybartext").firstElementChild.innerText = songs[0].replaceAll("%20", " ").split(".mp3")[0].split("-")[0]
+                document.querySelector(".songatplaybartext").children[1].innerHTML = songs[0].replaceAll("%20", " ").split(".mp3")[0].split("-")[1]
+    
+            }
+            //  PLAY NEXT SONG
+            else{
 
+                playMusic(songs[index + 1])
+                document.querySelector(".songatplaybar").firstElementChild.setAttribute("src", song_images[index + 1])
+                document.querySelector(".songatplaybartext").firstElementChild.innerText = songs[index + 1].replaceAll("%20", " ").split(".mp3")[0].split("-")[0]
+                document.querySelector(".songatplaybartext").children[1].innerHTML = songs[index + 1].replaceAll("%20", " ").split(".mp3")[0].split("-")[1]
+            }
+
+
+        }
+        
 
     })
     // add click event to previouse 
     document.querySelector(".previose-btn").addEventListener("click", e => {
         let index = songs.indexOf(currentsong.src.split("/songs/")[1])
-        if(index > 0){
-            playMusic(songs[index-1])
-            document.querySelector(".songatplaybar").firstElementChild.setAttribute("src", song_images[index-1])
-            document.querySelector(".songatplaybartext").firstElementChild.innerText = songs[index-1].replaceAll("%20", " ").split(".mp3")[0].split("-")[0]
-            document.querySelector(".songatplaybartext").children[1].innerHTML = songs[index-1].replaceAll("%20", " ").split(".mp3")[0].split("-")[1]
+        if (index > 0) {
+            playMusic(songs[index - 1])
+            document.querySelector(".songatplaybar").firstElementChild.setAttribute("src", song_images[index - 1])
+            document.querySelector(".songatplaybartext").firstElementChild.innerText = songs[index - 1].replaceAll("%20", " ").split(".mp3")[0].split("-")[0]
+            document.querySelector(".songatplaybartext").children[1].innerHTML = songs[index - 1].replaceAll("%20", " ").split(".mp3")[0].split("-")[1]
         }
     })
     // add click event to next
     document.querySelector(".next-btn").addEventListener("click", e => {
         let index = songs.indexOf(currentsong.src.split("/songs/")[1])
-         
-        if(index < (songs.length-1)){
-            playMusic(songs[index+1])
-            document.querySelector(".songatplaybar").firstElementChild.setAttribute("src", song_images[index+1])
-            document.querySelector(".songatplaybartext").firstElementChild.innerText = songs[index+1].replaceAll("%20", " ").split(".mp3")[0].split("-")[0]
-            document.querySelector(".songatplaybartext").children[1].innerHTML = songs[index+1].replaceAll("%20", " ").split(".mp3")[0].split("-")[1]
+
+        if (index < (songs.length - 1)) {
+            playMusic(songs[index + 1])
+            document.querySelector(".songatplaybar").firstElementChild.setAttribute("src", song_images[index + 1])
+            document.querySelector(".songatplaybartext").firstElementChild.innerText = songs[index + 1].replaceAll("%20", " ").split(".mp3")[0].split("-")[0]
+            document.querySelector(".songatplaybartext").children[1].innerHTML = songs[index + 1].replaceAll("%20", " ").split(".mp3")[0].split("-")[1]
         }
     })
+
     // add an event to volume
-    document.querySelector(".othertools").getElementsByTagName("input")[0].addEventListener("change",e => { 
-       console.log(e.target.value/100);
-       currentsong.volume = e.target.value/100;
-     })
- 
- 
+    document.querySelector(".othertools").getElementsByTagName("input")[0].addEventListener("change", e => {
+        console.log(e.target.value / 100);
+        currentsong.volume = e.target.value / 100;
+    })
 }
+
 
 
 
