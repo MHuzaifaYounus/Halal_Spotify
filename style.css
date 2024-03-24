@@ -41,7 +41,7 @@ main {
 
 .icons {
     width: 100%;
-    height: 13%;
+    height: 100px;
     border-radius: 10px;
     background-color: var(--secondary-color);
 
@@ -419,7 +419,7 @@ main {
 
 @media screen and (max-height: 667px) {
     .main-box {
-        max-height: 85vh;
+        max-height: 97vh;
     }
 }
 
@@ -473,29 +473,35 @@ main {
     .main-box {
         width: 98%;
         margin: 10px auto;
+        max-height: 97vh;
 
     }
 
     .songatplaybar {
         width: 10%;
         position: absolute;
-
-        height: 40px;
-        top: 0;
+        height: 30px;
+        margin-left: 10px;
+        top: 5px;
         left: 0;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.584);
+        box-shadow: 0 0 5px 1px rgba(255, 255, 255, 0.584);
+    
     }
 
     .songatplaybar img {
         width: 40px;
-        height: 40px;
-        margin-top: 5px;
-
-        margin-left: 20px;
+        height: 30px;
+        margin: 0 0;
+     
+    
 
     }
 
     .control-btn {
         transform: scale(0.8);
+        margin-top: 5px;
     }
 
     .songcontrol {
@@ -524,10 +530,16 @@ main {
     }
 
     .play-bar {
-        width: 97%;
+        width: 95%;
         border-radius: 10px;
-        margin-left: 5px;
+        margin-left: 6px;
         height: 68px;
-        border: 2px solid var(--secondary-color);
+        position: absolute;
+        bottom: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.584);
+        backdrop-filter: blur(50px);
+
+
     }
+
 }
