@@ -101,12 +101,12 @@ async function main() {
 
         if (currentsong.paused) {
             currentsong.play()
-            document.querySelector("#song_btn").firstElementChild.src = "pause.svg"
+            document.querySelector("#song_btn").firstElementChild.src = "svgs/pause.svg"
 
 
         }
         else if (currentsong.play) {
-            document.querySelector("#song_btn").firstElementChild.src = "play.svg"
+            document.querySelector("#song_btn").firstElementChild.src = "svgs/play.svg"
             currentsong.pause()
         }
         else {
@@ -182,9 +182,6 @@ async function main() {
     })
 }
 
-
-
-
 // make cards from details aurgoments
 async function getsongdetails(songimage, songname, artist, songpath) {
 
@@ -196,7 +193,7 @@ async function getsongdetails(songimage, songname, artist, songpath) {
         document.querySelector(".songatplaybar").firstElementChild.setAttribute("src", songimage)
         document.querySelector(".songatplaybartext").firstElementChild.innerText = songname
         document.querySelector(".songatplaybartext").children[1].innerHTML = artist
-        document.querySelector("#song_btn").firstElementChild.src = "pause.svg"
+        document.querySelector("#song_btn").firstElementChild.src = "svgs/pause.svg"
 
 
 
@@ -210,7 +207,7 @@ async function getsongdetails(songimage, songname, artist, songpath) {
     song_img.append(playbutton)
 
     let buttonimg = document.createElement("img")
-    buttonimg.setAttribute("src", "play.svg")
+    buttonimg.setAttribute("src", "svgs/play.svg")
     playbutton.append(buttonimg)
 
     let songimg = document.createElement("img")
@@ -231,4 +228,3 @@ async function getsongdetails(songimage, songname, artist, songpath) {
 
 }
 main()
-
