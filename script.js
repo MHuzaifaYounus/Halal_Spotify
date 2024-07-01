@@ -53,6 +53,43 @@ async function getsongimages() {
     }
     return song_images
 }
+function getPlaylist(playlistName, tagLine, playlistimg,) {
+    let playlistbox = document.createElement("div")
+    playlistbox.className = "playlist-box " + playlistName
+    document.querySelector(".playlist-container").append(playlistbox)
+
+    let song_img = document.createElement("div")
+    song_img.className = "song-img"
+    playlistbox.append(song_img)
+
+    let playbutton = document.createElement("button")
+    playbutton.className = "playbtn"
+    song_img.append(playbutton)
+
+    let buttonimg = document.createElement("img")
+    buttonimg.setAttribute("src", "svgs/play.svg")
+    playbutton.append(buttonimg)
+
+    let songimg = document.createElement("img")
+    songimg.setAttribute("src", playlistimg)
+    song_img.append(songimg)
+
+    let songtext = document.createElement("div")
+    songtext.className = "song-text"
+    playlistbox.append(songtext)
+
+    let songtitle = document.createElement("h1")
+    songtitle.innerText = playlistName
+    songtext.append(songtitle)
+
+    let songartist = document.createElement("p")
+    songartist.innerText = tagLine
+    songtext.append(songartist)
+}
+getPlaylist("Sleep", "Keep calm and focus with ambient and post-rock music.", "playlist_pics/sleep.png")
+getPlaylist("Hip-Hop", "Rap gods of Pakistan. Cover: Talha Anjum", "/playlist_pics/hiphop.png")
+getPlaylist("K-POP", "Welcome to the BTS's universe. H appy BTS Festa A.R.M.Y 💜", "/playlist_pics/k-pop.png")
+getPlaylist("Desi-POP", "Home to the Desi Pop Bops.", "/playlist_pics/desi-pop.png")
 
 // playing song 
 const playMusic = (track, pause = false) => {
@@ -70,7 +107,7 @@ async function main() {
     let song_images = await getsongimages()
     playMusic(songs[0], true)
     document.querySelector(".songatplaybar").firstElementChild.setAttribute("src", song_images[0])
-    document.querySelector(".songatplaybartext").firstElementChild.innerText = songs[0].replaceAll("%20", " ").split(".mp3")[0].split("-")[0]
+    document.querySelector(".songatplaybartext").firstElementChild.innerText = songs[0].replaceAll("%20", " ").split(".mp3")[0].split("-")[0].split(".")[1]
     document.querySelector(".songatplaybartext").children[1].innerHTML = songs[0].replaceAll("%20", " ").split(".mp3")[0].split("-")[1]
     // making cards 
     for (let index = 0; index < songs.length; index++) {
@@ -89,12 +126,17 @@ async function main() {
 
     })
     // addEventListener on home logo 
+    console.log(screen.width);
     if (screen.width <= 644) {
         document.querySelector(".home").addEventListener("click", e => {
             document.querySelector(".left-bar").style.left = "-30%"
             document.querySelector(".left-bar").style.opacity = "0"
 
         })
+        document.querySelector("#search-btn").addEventListener("click",() => { 
+            document.querySelector(".left-bar").style.left = "-30%"
+            document.querySelector(".left-bar").style.opacity = "0"
+         })
     }
     // play pause button click 
     document.querySelector("#song_btn").addEventListener("click", element => {
@@ -132,15 +174,15 @@ async function main() {
         // AUTOPLAY SONGS WHEN CURRENT SONG IS END 
         if (currentsong.currentTime == currentsong.duration) {
             // IF THE CURRENT SONG IS LAST SONG THEN AGAIN PLAY FIRST SONG 
-            if(index == (songs.length - 1)){
+            if (index == (songs.length - 1)) {
                 playMusic(songs[0])
                 document.querySelector(".songatplaybar").firstElementChild.setAttribute("src", song_images[0])
                 document.querySelector(".songatplaybartext").firstElementChild.innerText = songs[0].replaceAll("%20", " ").split(".mp3")[0].split("-")[0]
                 document.querySelector(".songatplaybartext").children[1].innerHTML = songs[0].replaceAll("%20", " ").split(".mp3")[0].split("-")[1]
-    
+
             }
             //  PLAY NEXT SONG
-            else{
+            else {
 
                 playMusic(songs[index + 1])
                 document.querySelector(".songatplaybar").firstElementChild.setAttribute("src", song_images[index + 1])
@@ -150,7 +192,7 @@ async function main() {
 
 
         }
-        
+
 
     })
     // add click event to previouse 
@@ -183,21 +225,28 @@ async function main() {
 }
 
 // make cards from details aurgoments
-async function getsongdetails(songimage, songname, artist, songpath) {
+async function getsongdetails(songimage, songname, artist, songpath, container = "default") {
+    if (container === "default") {
+        container = document.querySelector(".cont" + songname.split(".")[0])
+    }
+    else {
+        container = document.querySelector(".search-cont")
 
+    }
     let song = document.createElement("div")
     song.className = "song"
-    document.querySelector(".songs-container").append(song)
+    container.append(song)
     song.addEventListener("click", element => {
         playMusic(songpath.trim())
         document.querySelector(".songatplaybar").firstElementChild.setAttribute("src", songimage)
-        document.querySelector(".songatplaybartext").firstElementChild.innerText = songname
+        document.querySelector(".songatplaybartext").firstElementChild.innerText = songname.split(".")[1]
         document.querySelector(".songatplaybartext").children[1].innerHTML = artist
         document.querySelector("#song_btn").firstElementChild.src = "svgs/pause.svg"
 
 
 
     })
+
     let song_img = document.createElement("div")
     song_img.className = "song-img"
     song.append(song_img)
@@ -219,7 +268,7 @@ async function getsongdetails(songimage, songname, artist, songpath) {
     song.append(songtext)
 
     let songtitle = document.createElement("h1")
-    songtitle.innerText = songname
+    songtitle.innerText = songname.split(".")[1]
     songtext.append(songtitle)
 
     let songartist = document.createElement("p")
@@ -228,3 +277,86 @@ async function getsongdetails(songimage, songname, artist, songpath) {
 
 }
 main()
+
+async function serach() {
+    let songs = await getsongs()
+    let song_images = await getsongimages()
+    let availableSongs = []
+    let result = []
+    for (let index = 0; index < songs.length; index++) {
+        let songName = songs[index].replaceAll("%20", "").split(".mp3")[0].split("-")[0]
+        availableSongs.push(songName)
+    }
+    document.getElementById("search-bar").onkeyup = function () {
+        let resultForImg = []
+        let input = document.getElementById("search-bar").value
+        document.querySelector(".playlist-container").style.display = "none"
+        document.querySelector(".search-cont").style.display = "flex"
+        if (input.length) {
+            result = songs.filter((keyword) => {
+                return keyword.toLowerCase().includes(input.toLowerCase())
+            })
+            resultForImg = song_images.filter((keyword) => {
+                return keyword.toLowerCase().includes(input.toLowerCase())
+            })
+            console.log(result);
+            document.querySelector(".search-cont").innerHTML = " "
+            for (let index = 0; index < result.length; index++) {
+                let song_image_path = resultForImg[index].replaceAll("%20", " ")
+                let songName = result[index].replaceAll("%20", " ").split(".mp3")[0].split("-")[0]
+                let songPath = result[index].replaceAll("%20", " ")
+                let artistName = result[index].replaceAll("%20", " ").split(".mp3")[0].split("-")[1]
+                getsongdetails(song_image_path, songName, artistName, songPath, "search-cont")
+
+            }
+
+        }
+        else if (input === "") {
+            document.querySelector(".search-cont").style.display = "none"
+            document.querySelector(".playlist-container").style.display = "flex"
+
+        }
+
+
+    }
+
+
+}
+
+serach()
+
+let playlistBoxArray = document.querySelectorAll(".playlist-box")
+for (let index = 0; index < playlistBoxArray.length; index++) {
+    const element = playlistBoxArray[index];
+    element.addEventListener("click", () => {
+        console.log("click");
+        document.querySelector(".playlist-container").style.display = "none"
+        document.querySelector(".cont" + (index + 1)).style.display = "flex"
+
+    })
+}
+
+let backbtns = document.querySelectorAll(".back")
+for (let index = 0; index < backbtns.length; index++) {
+    const e = backbtns[index];
+    e.addEventListener("click", () => {
+        console.log("back");
+        document.querySelector(".playlist-container").style.display = "flex"
+        document.querySelector(".cont" + (index + 1)).style.display = "none"
+
+    })
+}
+
+document.querySelector("#search-btn").addEventListener("click", () => {
+    console.log("search");
+    document.querySelector(".searchbar").style.display = "flex"
+})
+document.querySelector("#searched").addEventListener("click", () => {
+    document.querySelector(".searchbar").style.display = "none"
+    document.getElementById("search-bar").value = ""
+
+})
+document.querySelector(".home").addEventListener("click",() => {
+    document.querySelector(".playlist-container").style.display = "flex"
+    document.querySelector(".search-cont").style.display = "none"
+ })
